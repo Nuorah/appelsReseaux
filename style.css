@@ -19,3 +19,8 @@ img {
 div {
 	margin: 10px;
 }
+
+li{
+	margin:5px;
+	list-style: none;
+}

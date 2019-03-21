@@ -1,9 +1,12 @@
 var app = {
 	init: function(){
-		//this.displayUser = this.displayUser.bind(this)
-
 		this.getGithubData(this.displayUser, 'https://api.github.com/users/Nuorah');
+	},
 
+	initRepositories: function(){
+		var url = new URL(window.location);
+		var login = url.searchParams.get('login');
+		this.getGithubData(this.displayRepositories, 'https://api.github.com/users/' + login + '/repos')
 	},
 
 	displayUser: function (user) {
@@ -14,7 +17,9 @@ var app = {
 		divLogin = document.getElementById('username');
 		imgProfil.src = user.avatar_url;
 		imgProfil.id = "imgProfil";
-		imgProfil.addEventListener("click", function () {this.goRepositories(user.name)})
+		imgProfil.addEventListener("click", function () {
+			window.location = 'repositories.html?login=' + user.login;
+			;})
 		divNom.innerHTML += user.name;
 		divLogin.innerHTML += user.login;
 		divAvatar.appendChild(imgProfil);
@@ -23,18 +28,22 @@ var app = {
 
 
 	goRepositories: function(){		
-		console.log("click");
-			//window.location = 'repositories.html?login=' + 'Nuorah';
-			//this.getGithubData(this.displayRepositories, 'https://api.github.com/users/Nuorah/repos');
-	
+		console.log("click");		
+
 	},
 
 	displayRepositories: function(repositories){
+		console.log(repositories);
 		repositoriesUl = document.getElementById("repositories");
 		for (var i = repositories.length - 1; i >= 0; i--) {
 			var repo = document.createElement('li')
-			repo.innerHTML = repositories[i].name;
+			if(repositories[i].description != null){
+				repo.innerHTML = repositories[i].name + " : " + repositories[i].description;
+			} else {
+				repo.innerHTML = repositories[i].name
+			}
 			repositoriesUl.appendChild(repo);
+
 		}
 	},
 
@@ -56,13 +65,6 @@ var app = {
 
 }
 
-function app () {
-
-	var self = this;
-
-	var init = function () {}
-
-}
 
 
 
